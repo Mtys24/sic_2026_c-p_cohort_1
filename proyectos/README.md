@@ -35,7 +35,7 @@ Cada equipo elige un dataset de datos reales, formula una pregunta de analisis c
 
 | Fecha | Actividad |
 |-------|-----------|
-| Lunes 16 jun — Clase 7 | Kickoff: registrar equipo y dataset al inicio de la clase |
+| Lunes 15 jun — Clase 7 | Kickoff: registrar equipo y dataset al inicio de la clase |
 | Miercoles 17 jun — Clase 8 | Cargar datos, EDA inicial, formular pregunta de analisis |
 | Viernes 19 jun — Clase 9 | Limpieza, analisis principal, construir el dashboard |
 | Lunes 22 jun — Clase 10 | Pulir dashboard, publicar, documentar repo, presentaciones finales (7 min por equipo) |
@@ -52,29 +52,31 @@ Cada equipo elige un dataset de datos reales, formula una pregunta de analisis c
 
 Antes del lunes 22 de junio a las 22:00 hrs, el equipo debe tener un PR aprobado con:
 
-- Carpeta `/proyectos/nombre-del-equipo/` con la estructura requerida
-- Al menos un notebook `.ipynb` con el analisis documentado y comentado
-- `app.py` con el dashboard Streamlit funcional
-- `requirements.txt` actualizado
-- `README.md` con descripcion, dataset, pregunta, hallazgos, link al dashboard e integrantes
-- Dashboard publicado en Streamlit Cloud o Hugging Face Spaces (URL en el README)
+* Carpeta `/proyectos/nombre-del-equipo/` con la estructura requerida
+* Al menos un notebook `.ipynb` con el análisis documentado y comentado
+* Una aplicación funcional (`app.py` o archivo equivalente) desarrollada con **Streamlit o Gradio**
+* `requirements.txt` actualizado
+* `README.md` con descripción, dataset, pregunta de análisis, hallazgos, link al dashboard/app e integrantes
+* Aplicación publicada en **Streamlit Cloud, Hugging Face Spaces o plataforma equivalente** (URL en el README)
 
-### Entregable 2: Presentacion en la Clase 10 u 11
+### Entregable 2: Presentación en la Clase 10 u 11
 
-- 7 minutos de presentacion con el dashboard abierto en pantalla
-- 3 minutos de preguntas del docente y del grupo
-- Todos los integrantes deben estar presentes
+* 7 minutos de presentación con la aplicación abierta en pantalla
+* 3 minutos de preguntas del docente y del grupo
+* Todos los integrantes deben estar presentes
 
-### Requisitos minimos del dashboard
+### Requisitos mínimos de la aplicación
 
-| Elemento | Requisito minimo |
-|----------|-----------------|
-| Visualizaciones | Al menos 3 graficos interactivos (Plotly, Altair o Folium) relevantes para la pregunta |
-| Filtros | Al menos 2 filtros en el sidebar que actualicen los graficos en tiempo real |
-| KPIs | Al menos 3 metricas con `st.metric` en la pagina principal |
-| Texto | Una seccion que explique el hallazgo principal en lenguaje no tecnico |
-| Dataset | Datos reales, mas de 500 filas, licencia verificable, fuente citada en el README |
-| Publicacion | URL publica funcionando en Streamlit Cloud o Hugging Face Spaces |
+| Elemento        | Requisito mínimo                                                                                                       |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Visualizaciones | Al menos 3 visualizaciones relevantes para responder la pregunta de análisis                                           |
+| Interactividad  | Al menos 2 controles interactivos (filtros, sliders, dropdowns, inputs, etc.) que actualicen resultados en tiempo real |
+| Indicadores     | Al menos 3 métricas, KPIs o valores resumen visibles en la interfaz                                                    |
+| Texto           | Una sección que explique el hallazgo principal en lenguaje no técnico                                                  |
+| Dataset         | Datos reales con volumen suficiente para responder la pregunta, licencia verificable y fuente citada en el README      |
+| Publicación     | URL pública funcionando correctamente                                                                                  |
+
+**Bibliotecas sugeridas para visualización:** Plotly, Altair, Folium, Matplotlib, PyDeck u otras equivalentes.
 
 ---
 
@@ -120,7 +122,7 @@ La presentacion sigue esta estructura. El docente hace sonar una senal a los 7 m
 
 ## 6. Pauta de evaluacion
 
-El proyecto vale el **30% de la nota final del curso**. Se evaluan 6 criterios con tres niveles cada uno.
+El proyecto vale el **60% de la nota final del curso**. Se evaluan 6 criterios con tres niveles cada uno.
 
 Para obtener el certificado: asistencia igual o mayor al 90% y nota total del curso igual o mayor al 50.
 
