@@ -215,11 +215,11 @@ with col_viz:
 
 with col_chat:
     # ==========================================================================
-    # 🤖 MÓDULO DE IA: ESTILO ASTRO-PAWS (PURO Y SIN LANGCHAIN)
+    # 🤖 MÓDULO DE IA: CORTAFUEGOS Y COLUMNAS COMPLETAS
     # ==========================================================================
-    if df is not None:
+    if d is not None and not d.empty:
         st.subheader("🤖 Asistente Virtual")
-        st.markdown("<small>Pregúntame sobre los datos. Ej: *¿En qué comuna está la Gasolina 95 más barata?*</small>", unsafe_allow_html=True)
+        st.markdown("<small>Filtra por Región o Comuna y pregúntame. Ej: *¿Dónde está la 97 más barata?*</small>", unsafe_allow_html=True)
 
         try:
             google_api_key = st.secrets["GOOGLE_API_KEY"]
@@ -229,45 +229,13 @@ with col_chat:
         if not google_api_key:
             st.warning("Configura GOOGLE_API_KEY en secrets.toml")
         else:
-            # 1. Inicializamos el cliente exacto que usaste en Astro-Paws
             cliente = genai.Client(api_key=google_api_key)
 
-            # 2. Transformamos la base de datos a un formato que Gemini pueda "leer"
-            # Nos quedamos con las columnas clave para ahorrar memoria
-            columnas_clave = ['region', 'comuna', 'direccion', 'marca', 'Gasolina 93', 'Gasolina 95', 'Diésel']
-            datos_texto = df[columnas_clave].to_csv(index=False)
-
-            # 3. El System Prompt directo y claro
-            INSTRUCCIONES = f"""
-            Eres un asistente experto en el mercado de combustibles de Chile.
-            
-            Aquí tienes la base de datos completa y actualizada de las estaciones de servicio en formato CSV:
-            --- INICIO DE DATOS ---
-            {datos_texto}
-            --- FIN DE DATOS ---
-
-            REGLAS:
-            1. Responde preguntas basándote ÚNICAMENTE en los datos de arriba.
-            2. Si preguntan por "bencina" asume 'Gasolina 93'.
-            3. Formatea los precios siempre como peso chileno (Ej: $1.250 sin decimales).
-            4. Responde de manera natural, conversacional y directa, sin mostrar tablas a menos que se te pida.
-            """
-
-            # 4. Manejo del historial en la memoria de Streamlit
-            if "chat_sesion" not in st.session_state:
-                # Creamos el chat con memoria nativa, igual que en tu backend de Flask
-                st.session_state.chat_sesion = cliente.chats.create(
-                    model="gemini-2.5-flash",
-                    config=types.GenerateContentConfig(
-                        system_instruction=INSTRUCCIONES,
-                        temperature=0.2 # Un toque de naturalidad sin perder precisión
-                    )
-                )
+            if "mensajes_chat" not in st.session_state:
                 st.session_state.mensajes_chat = []
 
-            chat_container = st.container(height=600)
+            chat_container = st.container(height=800)
 
-            # Dibujar mensajes previos
             for mensaje in st.session_state.mensajes_chat:
                 with chat_container.chat_message(mensaje["rol"]):
                     st.markdown(mensaje["contenido"])
@@ -280,12 +248,61 @@ with col_chat:
                     st.markdown(pregunta)
 
                 with chat_container.chat_message("assistant"):
-                    with st.spinner("Leyendo la base de datos..."):
-                        try:
-                            # Enviamos el mensaje directo, el SDK maneja la memoria solo
-                            respuesta = st.session_state.chat_sesion.send_message(pregunta)
-                            st.markdown(respuesta.text)
-                            st.session_state.mensajes_chat.append({"rol": "assistant", "contenido": respuesta.text})
-                            
-                        except Exception as e:
-                            st.error(f"Error de conexión espacial: {e}")
+                    
+# 🛡️ CORTAFUEGOS: Ajustado a 500 para permitir la Región Metropolitana completa
+                    LIMITE_FILAS = 500 
+                    
+                    if len(d) > LIMITE_FILAS:
+                        msg_bloqueo = f"⚠️ Tienes **{len(d)}** estaciones seleccionadas. Usa los filtros de la izquierda para seleccionar una **Comuna** o una **Región** antes de preguntar."
+                        st.warning(msg_bloqueo)
+                        st.session_state.mensajes_chat.append({"rol": "assistant", "contenido": msg_bloqueo})                    
+                    else:
+                        with st.spinner("Analizando estaciones..."):
+                            try:
+                                # SOLUCIÓN AL BUG: Agregamos TODAS las columnas de combustible
+                                columnas_ia = ['region', 'comuna', 'direccion', 'marca', 'Gasolina 93', 'Gasolina 95', 'Gasolina 97', 'Diésel', 'Kerosene']
+                                cols_validas = [c for c in columnas_ia if c in d.columns]
+                                
+                                # Le pasamos 'd' a la IA (todas las estaciones de la zona), no solo 'd_graficos'
+                                datos_texto = d[cols_validas].to_csv(index=False)
+
+                                INSTRUCCIONES = f"""
+                                Eres un asistente experto en combustibles de Chile.
+                                BASE DE DATOS ACTUAL:
+                                {datos_texto}
+
+                                REGLAS:
+                                1. RESPUESTA ANTICIPATORIA: Si preguntan por barato/caro, entrega INMEDIATAMENTE un TOP 3 con marca, comuna, dirección y precio.
+                                2. Ve directo al grano, sin explicaciones. Precios en formato chileno ($1.250).
+                                3. DICCIONARIO: 
+                                   - "bencina" = Gasolina. Si NO especifican octanaje, dales el Top 1 de 93, el Top 1 de 95 y el Top 1 de 97.
+                                   - "petróleo" = Diésel.
+                                   - "parafina" = Kerosene.
+                                """
+
+                                respuesta = cliente.models.generate_content(
+                                    model='gemini-2.5-flash',
+                                    contents=pregunta,
+                                    config=types.GenerateContentConfig(
+                                        system_instruction=INSTRUCCIONES,
+                                        temperature=0.1
+                                    )
+                                )
+                                
+                                texto_final = respuesta.text
+                                st.markdown(texto_final)
+                                st.session_state.mensajes_chat.append({"rol": "assistant", "contenido": texto_final})
+                                
+                            except Exception as e:
+                                error_str = str(e)
+                                
+                                # Si es el error 503 de saturación de Google
+                                if "503" in error_str or "high demand" in error_str.lower():
+                                    error_msg = "⏳ Las antenas satelitales de Google están un poco saturadas en este momento. ¡Dame unos segunditos y vuelve a preguntarme!"
+                                
+                                # Si es cualquier otro error técnico raro
+                                else:
+                                    error_msg = f"Lo siento, ocurrió un error consultando los datos: `{e}`"
+                                
+                                st.error(error_msg)
+                                st.session_state.mensajes_chat.append({"rol": "assistant", "contenido": error_msg})
