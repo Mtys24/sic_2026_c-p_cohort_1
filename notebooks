@@ -1,0 +1,78 @@
+[33mcommit 67544d066c17eb7eac526545bf50f21dbb0a8f11[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Merge: 72942ad 7d31330
+Author: AvyG <59174087+AvyG@users.noreply.github.com>
+Date:   Fri Jun 19 14:57:12 2026 -0400
+
+    Merge branch 'main' of https://github.com/AvyG/sic_2026_c-p_cohort_1
+
+[33mcommit 72942add1fddf6ff52c9845cc5254427417be204[m
+Author: AvyG <59174087+AvyG@users.noreply.github.com>
+Date:   Fri Jun 19 14:51:35 2026 -0400
+
+    Crear carpeta notebook
+
+[33mcommit 27b54b929f650467fb749dae06bef69677aeab33[m
+Author: AvyG <59174087+AvyG@users.noreply.github.com>
+Date:   Fri Jun 19 14:45:57 2026 -0400
+
+    Agregar carpeta notebooks con EDA, limpieza y analisis de dataset geo y demografico
+
+[33mcommit 7d31330fadb18922e681b790f71590c6f4a0e5bb[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: AvyG <59174087+AvyG@users.noreply.github.com>
+Date:   Fri Jun 19 14:41:15 2026 -0400
+
+    Borrar carpeta mal nombrada
+
+[33mcommit b011be7ab5ad70899c6876fbc3cdf86ddd185ed8[m
+Author: AvyG <59174087+AvyG@users.noreply.github.com>
+Date:   Fri Jun 19 14:18:42 2026 -0400
+
+    Reubicacion del dataset limpio
+
+[33mcommit fd787003d86e54460ecbbc4e00f16a6fa570c61e[m
+Author: AvyG <59174087+AvyG@users.noreply.github.com>
+Date:   Fri Jun 19 13:48:01 2026 -0400
+
+    Agrega dataset limpio de la region del biobio
+
+[33mcommit 8c68f288fccfece9b9d31766689e4bfb0ff48a0c[m
+Author: AvyG <59174087+AvyG@users.noreply.github.com>
+Date:   Fri Jun 19 13:46:45 2026 -0400
+
+    Agrega notebook con EDA, limpieza y mapa de los datos geo y demograficos
+
+[33mcommit fc36dc091d64838d8abe88c77eef3617c1c9d170[m
+Author: AvyG <59174087+AvyG@users.noreply.github.com>
+Date:   Thu Jun 18 18:23:48 2026 -0400
+
+    Agrega proyecto final equipo Grupo_5
+
+[33mcommit a897aa10ac17cc2bfbf14991eec91011f29a53c2[m
+Author: siberiano-azul <kraps.sign@gmail.com>
+Date:   Tue Jun 16 16:40:53 2026 -0400
+
+    Update project deadlines and deliverable requirements
+
+[33mcommit 43bfc6d8a6537839c31d296694dbc21b4da4e2d7[m
+Author: davidlealo <davidlealo@gmail.com>
+Date:   Tue Jun 16 16:16:12 2026 -0400
+
+    actualizacion
+
+[33mcommit c80042554b9c94ac4a96a4faacb4f67e28508f91[m
+Author: davidlealo <davidlealo@gmail.com>
+Date:   Tue Jun 16 16:14:31 2026 -0400
+
+    proyectos
+
+[33mcommit 97a50313a2c67900cc39d91d6747f383ddecbc9b[m
+Author: David Leal <davidlealo@gmail.com>
+Date:   Mon Jun 8 21:54:11 2026 -0400
+
+    Se creó con Colab
+
+[33mcommit 7c7ec1eaad4562e59bca90cf00aee7b9a96771d3[m
+Author: David Leal <davidlealo@gmail.com>
+Date:   Mon Jun 8 21:47:14 2026 -0400
+
+    Initial commit
